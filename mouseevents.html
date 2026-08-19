@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box{
+            width:300px;
+            height:200px;
+            background-color:blue;
+            border:2px solid black;
+        }
+        #para{
+            width:300px;
+            height:200px;
+            background-color:green;
+            border:2px solid black;
+        }
+        #para1{
+            width:300px;
+            height:200px;
+            background-color:red;
+            border:2px solid black;
+        }
+        #para2{
+            width:300px;
+            height:200px;
+            background-color:yellow;
+            border:2px solid black;
+        }
+        #para3{
+            width:300px;
+            height:200px;
+            background-color:pink;
+            border:2px solid black;
+        }
+        
+    </style>
+    <script>
+        function eventcall(){
+            alert("these are mousee events");
+        }
+        function mouseover(){
+            alert("this is mouseover event");
+        }
+        function mouseout(){
+            alert("this is mouseout event");
+        }
+        function mousedown(){
+            alert("this is mousedown event");
+        }
+        function mouseup(){
+            alert("this is mouseup event");
+        }
+    </script>
+</head>
+<body>
+    <div id="box" onclick="eventcall()">this is section A</div>
+    <p id="para" onmouseover="mouseover()">this is section B</p>
+    <p id="para1" onmouseout="mouseout()">this is section C</p>
+    <p id="para2" onmousedown="mousedown()">this is section D</p>
+    <p id="para3" onmouseup="mouseup()">this is section E</p>
+
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #dbc8f5;
+            background-position: -1500px -500px;
+        }
+        #form{
+            width:400px;
+            margin: 100px auto 0 auto;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding:20px;
+            background-color: rgb(241, 230, 255);
+            color: black;
+            box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.1);
+
+        }
+        p,input{
+            font-size: 18px;
+        }
+        input{
+            width:300px;
+            height:auto;
+            border: 1px solid #6702ff;
+            border-radius: 5px;
+            background-color:#b0e9f2;
+            box-shadow: inset -3px 3px 10px rgba(190, 96, 96, 0.1);
+        }
+    </style>
+    <script>
+
+    </script>
+
+</head>
+<body>
+    <div id="form">
+        <h1 id="heading">Keyboard Events</h1>
+        <p>onkeydown</p>
+        <input type="text" onkeydown="alert(this.value);">  <!alert comes on every key press then it stores the value in the input box ,whenever we delete the value the alert will show the value before deleting it.>
+        <p>onkeyup</p>
+        <input type="text" onkeyup="alert(this.value);">   <!alert comes on every key release then it stores the value in the input box ,whenever we delete the value the alert will show the value after deleting it. here the value is stored after the key is released.before giving the alert message the value is stored in the input box.>
+        <p>onkeypress</p>
+        <input type="text" onkeypress="alert(this.value);"> <!alert comes on every key press then it stores the value in the input box ,whenever we delete the value the alert will show the value before deleting it. here the value is stored before the key is released.before giving the alert message the value is stored in the input box. when we delete the value we dont get an alert message because the value is stored before the key is released and when we delete the value the value is already deleted before the key is released.>
+        <p>oninput</p>
+        <input type="text" oninput="alert(this.value);">  
+        <p>onchange</p>
+        <input type="text" onchange="alert(this.value); ">
+        <p>onfocus</p>
+        <input type="text" onfocus="alert(this.value);">
+    </div>
+    <div id="form">
+        <h2 id="heading">Keyboard Events</h2>
+        <p>onkeydown</p>
+        <input type="text" onkeydown="document.getElementById('form').style.background=this.value"> <!first we have to press enter then change the background color of the input box according to the value entered in the input box. it >
+        <p>onkeyup</p>
+        <input type="text" onkeyup="document.getElementById('form').style.background=this.value">   <!it changes the background color at runtime as soon as the key is released according to the value entered in the input box.>
+        <p>onkeypress</p> 
+        <input type="text" onkeypress="document.getElementById('form').style.background=this.value"> <!it changes the background color at runtime as soon as the key is pressed according to the value entered in the input box.>
+        <p>oninput</p>
+        <input type="text" oninput="document.getElementById('form').style.background=this.value">  <! .stle.background is used to change the background color of the input box according to the value entered in the input box.>
+        <p>onchange</p>
+        <input type="text" onchange="document.getElementById('form').style.background=this.value">
+        <p>onfocus</p>
+        <input type="text" onfocus="document.getElementById('form').style.background=this.value">
+
+    </div>
+</body>
+    
