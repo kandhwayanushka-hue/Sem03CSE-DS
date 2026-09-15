@@ -1,4 +1,4 @@
-const http = request('http');
+const http = require('http');
 const PORT = 3000;  // changed from 3005
 const server = http.createServer((req, res) => {
     console.log(`Request received: ${req.method} ${req.url}`);
