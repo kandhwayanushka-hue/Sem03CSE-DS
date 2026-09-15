@@ -9,7 +9,7 @@ fs.writeFile(
         console.log('File written successfully');
     }
 )
-fs.readFile('sample.txt','utf8',(err,data) => {
+fs.readFile('sample.txt','utf8',(err,data) => {s
     if (err) {
         console.log('Error reading file:', err);
         return;
