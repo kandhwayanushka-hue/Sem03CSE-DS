@@ -22,3 +22,4 @@ if(fs.existsSync('example.txt')) {
 }else{
     console.log('File not found, need to create it.');
 }
+s
