@@ -1,86 +1,64 @@
 var questions = [
     {
         question: "Which keyword is used to declare a variable in JavaScript?",
-        options: [
-            "var",
-            "variable",
-            "int",
-            "string"
-        ],
+        options: ["var", "variable", "int", "string"],
         answer: "var"
     },
-
     {
         question: "Which symbol is used for a single-line comment in JavaScript?",
-        options: [
-            "#",
-            "//",
-            "<!-- -->",
-            "**"
-        ],
+        options: ["#", "//", "<!-- -->", "**"],
         answer: "//"
     },
-
     {
         question: "Which method is used to display a message in the browser console?",
-        options: [
-            "print()",
-            "display()",
-            "console.log()",
-            "message()"
-        ],
+        options: ["print()", "display()", "console.log()", "message()"],
         answer: "console.log()"
     },
-
     {
         question: "Which keyword is used to create a function in JavaScript?",
-        options: [
-            "function",
-            "def",
-            "fun",
-            "method"
-        ],
+        options: ["function", "def", "fun", "method"],
         answer: "function"
     },
-
     {
         question: "Which operator is used for strict equality in JavaScript?",
-        options: [
-            "=",
-            "==",
-            "===",
-            "!="
-        ],
+        options: ["=", "==", "===", "!="],
         answer: "==="
     }
 ];
 
 var currentQuestion = 0;
 var score = 0;
+var selectedIndex = -1;
 var questionTime = 30;
-var totalTime = questions.length * 30;
+var totalTime = 150;
+
 var questionTimer;
 var totalTimer;
 
+document.getElementById("startButton").addEventListener("click", startQuiz);
+
+document.getElementById("nextButton").addEventListener("click", nextQuestion);
+
 function startQuiz() {
 
-    var name = document.getElementById("name").value;
-    var roll = document.getElementById("roll").value;
-    var email = document.getElementById("email").value;
-    var course = document.getElementById("course").value;
+    var name = document.getElementById("name").value.trim();
+    var roll = document.getElementById("roll").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var course = document.getElementById("course").value.trim();
 
-    if (
-        name == "" ||
-        roll == "" ||
-        email == "" ||
-        course == ""
-    ) {
+    if (name === "" || roll === "" || email === "" || course === "") {
         alert("Please enter all details.");
         return;
     }
 
+    currentQuestion = 0;
+    score = 0;
+    selectedIndex = -1;
+    totalTime = questions.length * 30;
+
     document.getElementById("page1").style.display = "none";
     document.getElementById("quizPage").style.display = "block";
+    document.getElementById("resultPage").style.display = "none";
 
     showQuestion();
     startTotalTimer();
@@ -88,7 +66,11 @@ function startQuiz() {
 
 function showQuestion() {
 
+    clearInterval(questionTimer);
+
     var q = questions[currentQuestion];
+
+    selectedIndex = -1;
 
     document.getElementById("questionNumber").innerHTML =
         currentQuestion + 1;
@@ -96,8 +78,7 @@ function showQuestion() {
     document.getElementById("question").innerHTML =
         q.question;
 
-    document.getElementById("questionTimer").innerHTML =
-        30;
+    document.getElementById("questionTimer").innerHTML = "30";
 
     var options = document.getElementById("options");
 
@@ -105,40 +86,51 @@ function showQuestion() {
 
     for (var i = 0; i < q.options.length; i++) {
 
-        var label = document.createElement("label");
+        var option = document.createElement("div");
 
-        label.className = "option";
+        option.className = "option";
 
-        label.innerHTML =
-            '<input type="radio" name="answer" value="' +
-            q.options[i] +
-            '">' +
-            q.options[i];
+        option.innerHTML = (i + 1) + ". " + q.options[i];
 
-        options.appendChild(label);
+        option.dataset.index = i;
 
-        label.onclick = function() {
+        option.addEventListener("click", function () {
+            selectOption(parseInt(this.dataset.index));
+        });
 
-            var allOptions =
-                document.getElementsByClassName("option");
-
-            for (var j = 0; j < allOptions.length; j++) {
-                allOptions[j].classList.remove("selected");
-            }
-
-            this.classList.add("selected");
-        };
+        options.appendChild(option);
     }
 
-    if (currentQuestion == questions.length - 1) {
-        document.getElementById("nextButton").innerHTML =
-            "Submit";
+    if (currentQuestion === questions.length - 1) {
+        document.getElementById("nextButton").innerHTML = "Submit";
     } else {
-        document.getElementById("nextButton").innerHTML =
-            "Next";
+        document.getElementById("nextButton").innerHTML = "Next";
     }
 
     startQuestionTimer();
+}
+
+function selectOption(index) {
+
+    var allOptions = document.getElementsByClassName("option");
+
+    if (index < 0 || index >= allOptions.length) {
+        return;
+    }
+
+    selectedIndex = index;
+
+    for (var i = 0; i < allOptions.length; i++) {
+
+        allOptions[i].classList.remove("selected");
+        allOptions[i].classList.remove("unselected");
+
+        if (i === index) {
+            allOptions[i].classList.add("selected");
+        } else {
+            allOptions[i].classList.add("unselected");
+        }
+    }
 }
 
 function startQuestionTimer() {
@@ -147,10 +139,9 @@ function startQuestionTimer() {
 
     questionTime = 30;
 
-    document.getElementById("questionTimer").innerHTML =
-        questionTime;
+    document.getElementById("questionTimer").innerHTML = "30";
 
-    questionTimer = setInterval(function() {
+    questionTimer = setInterval(function () {
 
         questionTime--;
 
@@ -169,7 +160,9 @@ function startQuestionTimer() {
 
 function startTotalTimer() {
 
-    totalTimer = setInterval(function() {
+    clearInterval(totalTimer);
+
+    totalTimer = setInterval(function () {
 
         totalTime--;
 
@@ -186,6 +179,7 @@ function startTotalTimer() {
         if (totalTime <= 0) {
 
             clearInterval(totalTimer);
+            clearInterval(questionTimer);
 
             finishQuiz();
         }
@@ -197,17 +191,12 @@ function nextQuestion() {
 
     clearInterval(questionTimer);
 
-    var selected =
-        document.querySelector(
-            'input[name="answer"]:checked'
-        );
+    if (selectedIndex !== -1) {
 
-    if (selected != null) {
+        var selectedValue =
+            questions[currentQuestion].options[selectedIndex];
 
-        if (
-            selected.value ==
-            questions[currentQuestion].answer
-        ) {
+        if (selectedValue === questions[currentQuestion].answer) {
             score++;
         }
     }
@@ -229,24 +218,81 @@ function finishQuiz() {
     clearInterval(questionTimer);
     clearInterval(totalTimer);
 
-    var name =
+    document.getElementById("resultName").innerHTML =
         document.getElementById("name").value;
 
-    var roll =
-        document.getElementById("roll").value;
-
-    document.getElementById("resultName").innerHTML =
-        name;
-
     document.getElementById("resultRoll").innerHTML =
-        roll;
+        document.getElementById("roll").value;
 
     document.getElementById("score").innerHTML =
         score;
 
-    document.getElementById("quizPage").style.display =
-        "none";
-
-    document.getElementById("resultPage").style.display =
-        "block";
+    document.getElementById("quizPage").style.display = "none";
+    document.getElementById("resultPage").style.display = "block";
 }
+
+document.addEventListener("keydown", function (event) {
+
+    var quizPage = document.getElementById("quizPage");
+
+    if (quizPage.style.display !== "block") {
+        return;
+    }
+
+    var options = document.getElementsByClassName("option");
+
+    if (event.key === "ArrowDown") {
+
+        event.preventDefault();
+
+        if (selectedIndex === -1) {
+            selectOption(0);
+        } else {
+            var nextIndex = selectedIndex + 1;
+
+            if (nextIndex >= options.length) {
+                nextIndex = 0;
+            }
+
+            selectOption(nextIndex);
+        }
+    }
+
+    else if (event.key === "ArrowUp") {
+
+        event.preventDefault();
+
+        if (selectedIndex === -1) {
+            selectOption(options.length - 1);
+        } else {
+            var previousIndex = selectedIndex - 1;
+
+            if (previousIndex < 0) {
+                previousIndex = options.length - 1;
+            }
+
+            selectOption(previousIndex);
+        }
+    }
+
+    else if (
+        event.key === "1" ||
+        event.key === "2" ||
+        event.key === "3" ||
+        event.key === "4"
+    ) {
+
+        var number = parseInt(event.key);
+
+        if (number <= options.length) {
+            selectOption(number - 1);
+        }
+    }
+
+    else if (event.key === "Enter") {
+
+        event.preventDefault();
+
+        nextQuestion();
+    }
+});

@@ -73,11 +73,16 @@ input[type="email"] {
     color: #333;
 }
 
+.keyboard-info {
+    color: #8f263b;
+    font-size: 14px;
+    text-align: center;
+}
+
 .option {
-    display: block;
     padding: 12px;
     margin: 12px 0;
-    border: 1px solid #d9a0a9;
+    border: 1px solid #d99aa5;
     border-radius: 5px;
     cursor: pointer;
     background-color: white;
@@ -88,13 +93,15 @@ input[type="email"] {
 }
 
 .option.selected {
-    background-color: #e96b7d;
+    background-color: #4caf50;
     color: white;
-    border-color: #c43d52;
+    border-color: #388e3c;
 }
 
-.option input {
-    margin-right: 10px;
+.option.unselected {
+    background-color: #e57373;
+    color: white;
+    border-color: #c62828;
 }
 
 button {
